@@ -36,15 +36,43 @@
   .toolbar button { flex:1 1 140px; max-width:230px; padding:12px; font:600 .95rem system-ui, sans-serif; border-radius:8px; border:1px solid var(--accent); background:var(--accent); color:#fff; }
   .toolbar button.alt { background:#fff; color:var(--accent); }
   .note { font:.85rem system-ui, sans-serif; color:var(--muted); background:#fff7e0; border:1px solid #ecd9a0; border-radius:8px; padding:10px 12px; margin-top:24px; }
+  .modal { position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:50; display:flex; align-items:flex-end; justify-content:center; }
+  .modal[hidden] { display:none; }
+  .modal-box { background:#fff; width:100%; max-width:640px; max-height:85vh; overflow:auto; border-radius:14px 14px 0 0; padding:14px 16px 18px; font-family:system-ui, sans-serif; }
+  .modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:1.1rem; }
+  .modal button { font:600 .9rem system-ui, sans-serif; padding:8px 12px; border-radius:8px; border:1px solid var(--accent); background:#fff; color:var(--accent); }
+  .modal button.danger { border-color:#b3261e; color:#b3261e; }
+  .hrow { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
+  .htitle { font-weight:600; }
+  .hdate { font-size:.8rem; color:var(--muted); }
+  .hbtns { display:flex; gap:6px; flex-shrink:0; }
+  .hempty { color:var(--muted); font-size:.95rem; }
+  .modal-foot { margin-top:14px; }
   @media (max-width:600px) { .grid, .sig, .checks { grid-template-columns:1fr; } }
+  @page { size:A4 portrait; margin:18mm 16mm; }
   @media print {
-    body { background:#fff; font-size:11pt; }
-    .toolbar, .clear, .note { display:none !important; }
-    .page { padding:0; max-width:none; }
-    .party, .sigbox { border-color:#999; break-inside:avoid; }
-    input, select, textarea { border:none; border-bottom:1px solid #999; border-radius:0; padding:2px 0; background:transparent; }
-    h2 { break-after:avoid; }
-    canvas { border:none; border-bottom:1px solid #000; }
+    html, body { background:#fff; width:auto; }
+    body { font-size:10.5pt; line-height:1.45; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .toolbar, .clear, .note, .modal { display:none !important; }
+    .page { padding:0; margin:0; max-width:none; width:100%; }
+    h1 { font-size:18pt; margin:0 0 2mm; }
+    .logo { margin:2mm 0 3mm; }
+    .logo img { width:24mm; height:24mm; }
+    .sub { margin-bottom:4mm; }
+    h2 { font-size:12pt; margin:7mm 0 3mm; break-after:avoid; page-break-after:avoid; }
+    /* håll alltid tvåkolumnslayout i utskrift, även om skärmen är smal */
+    .grid, .sig { grid-template-columns:1fr 1fr !important; gap:3mm 6mm; }
+    .grid .full { grid-column:1 / -1 !important; }
+    .checks { grid-template-columns:1fr 1fr !important; }
+    .party, .sigbox { border-color:#999; padding:3mm 4mm; break-inside:avoid; page-break-inside:avoid; }
+    .party h3 { margin:0 0 2mm; }
+    input, select, textarea { border:none; border-bottom:1px solid #999; border-radius:0; padding:1mm 0; background:transparent; font-size:10.5pt; appearance:none; -webkit-appearance:none; }
+    textarea { min-height:18mm; resize:none; }
+    ol.terms { padding-left:5mm; }
+    ol.terms li { margin-bottom:2.5mm; break-inside:avoid; page-break-inside:avoid; }
+    p { orphans:3; widows:3; }
+    .sig, .checks label { break-inside:avoid; page-break-inside:avoid; }
+    canvas, .sigbox img { height:28mm !important; border:none; border-bottom:1px solid #000; border-radius:0; }
   }
 </style>
 </head>
@@ -59,77 +87,77 @@
   <div class="party">
     <h3>Stallägare / Uthyrare</h3>
     <div class="grid">
-      <div class="full"><label for="s_namn">Namn / Företag</label><input type="text" id="s_namn" value="Axén Häst AB"></div>
-      <div><label for="s_id">Personnr / Orgnr</label><input type="text" id="s_id" value="559303-8077"></div>
-      <div><label for="s_tel">Telefon</label><input type="tel" id="s_tel" value="0707208429"></div>
-      <div class="full"><label for="s_adr">Adress</label><input type="text" id="s_adr" value="Ringstad Gård 2, 60599 Norrköping"></div>
-      <div class="full"><label for="s_mail">E-post</label><input type="email" id="s_mail" value="Susanne.axen20@gmail.com"></div>
+      <div class="full"><label for="s_namn">Namn / Företag</label><input autocomplete="off" type="text" id="s_namn" value="Axén Häst AB"></div>
+      <div><label for="s_id">Personnr / Orgnr</label><input autocomplete="off" type="text" id="s_id" value="559303-8077"></div>
+      <div><label for="s_tel">Telefon</label><input autocomplete="off" type="tel" id="s_tel" value="0707208429"></div>
+      <div class="full"><label for="s_adr">Adress</label><input autocomplete="off" type="text" id="s_adr" value="Ringstad Gård 2, 60599 Norrköping"></div>
+      <div class="full"><label for="s_mail">E-post</label><input autocomplete="off" type="email" id="s_mail" value="Susanne.axen20@gmail.com"></div>
     </div>
   </div>
   <div class="party">
     <h3>Hästägare / Inackordering</h3>
     <div class="grid">
-      <div class="full"><label for="h_namn">Namn</label><input type="text" id="h_namn"></div>
-      <div><label for="h_id">Personnummer</label><input type="text" id="h_id"></div>
-      <div><label for="h_tel">Telefon</label><input type="tel" id="h_tel"></div>
-      <div class="full"><label for="h_adr">Adress</label><input type="text" id="h_adr"></div>
-      <div class="full"><label for="h_mail">E-post</label><input type="email" id="h_mail"></div>
-      <div class="full"><label for="h_ice">Närmast anhörig (nödkontakt)</label><input type="text" id="h_ice"></div>
+      <div class="full"><label for="h_namn">Namn</label><input autocomplete="off" type="text" id="h_namn"></div>
+      <div><label for="h_id">Personnummer</label><input autocomplete="off" type="text" id="h_id"></div>
+      <div><label for="h_tel">Telefon</label><input autocomplete="off" type="tel" id="h_tel"></div>
+      <div class="full"><label for="h_adr">Adress</label><input autocomplete="off" type="text" id="h_adr"></div>
+      <div class="full"><label for="h_mail">E-post</label><input autocomplete="off" type="email" id="h_mail"></div>
+      <div class="full"><label for="h_ice">Närmast anhörig (nödkontakt)</label><input autocomplete="off" type="text" id="h_ice"></div>
     </div>
   </div>
 
   <h2>2. Hästen</h2>
   <div class="grid">
-    <div><label for="hast_namn">Hästens namn</label><input type="text" id="hast_namn"></div>
+    <div><label for="hast_namn">Hästens namn</label><input autocomplete="off" type="text" id="hast_namn"></div>
     <div><label for="hast_kon">Kön</label>
-      <select id="hast_kon"><option value="">Välj…</option><option>Sto</option><option>Valack</option><option>Hingst</option></select></div>
-    <div><label for="hast_ar">Födelseår</label><input type="text" id="hast_ar"></div>
-    <div><label for="hast_farg">Färg / tecken</label><input type="text" id="hast_farg"></div>
-    <div><label for="hast_pass">UELN / passnummer / chipnr</label><input type="text" id="hast_pass"></div>
-    <div><label for="hast_fors">Försäkringsbolag och försäkringsnr</label><input type="text" id="hast_fors"></div>
+      <select autocomplete="off" id="hast_kon"><option value="">Välj…</option><option>Sto</option><option>Valack</option><option>Hingst</option></select></div>
+    <div><label for="hast_ar">Födelseår</label><input autocomplete="off" type="text" id="hast_ar"></div>
+    <div><label for="hast_farg">Färg / tecken</label><input autocomplete="off" type="text" id="hast_farg"></div>
+    <div><label for="hast_pass">UELN / passnummer / chipnr</label><input autocomplete="off" type="text" id="hast_pass"></div>
+    <div><label for="hast_fors">Försäkringsbolag och försäkringsnr</label><input autocomplete="off" type="text" id="hast_fors"></div>
   </div>
 
   <h2>3. Plats och avtalstid</h2>
   <div class="grid">
     <div><label for="p_typ">Typ av plats</label>
-      <select id="p_typ"><option value="">Välj…</option><option>Storbox</option><option>Ponnybox</option><option>Lösdrift</option></select></div>
-    <div><label for="p_stall">Stall / adress där hästen står</label><input type="text" id="p_stall" value="Ringstad Gård, 60599 Norrköping"></div>
-    <div><label for="p_start">Startdatum</label><input type="date" id="p_start"></div>
+      <select autocomplete="off" id="p_typ"><option value="">Välj…</option><option>Storbox</option><option>Ponnybox</option><option>Lösdrift</option></select></div>
+    <div><label for="p_stall">Stall / adress där hästen står</label><input autocomplete="off" type="text" id="p_stall" value="Ringstad Gård, 60599 Norrköping"></div>
+    <div><label for="p_start">Startdatum</label><input autocomplete="off" type="date" id="p_start"></div>
     <div><label for="p_tid">Avtalstid</label>
-      <select id="p_tid"><option>Tillsvidare</option><option>Bestämd tid</option></select></div>
-    <div><label for="p_slut">Slutdatum (om bestämd tid)</label><input type="date" id="p_slut"></div>
-    <div><label for="p_upps">Uppsägningstid (månader)</label><input type="number" id="p_upps" value="2" min="0"></div>
+      <select autocomplete="off" id="p_tid"><option>Tillsvidare</option><option>Bestämd tid</option></select></div>
+    <div><label for="p_slut">Slutdatum (om bestämd tid)</label><input autocomplete="off" type="date" id="p_slut"></div>
+    <div><label for="p_upps">Uppsägningstid (månader)</label><input autocomplete="off" type="number" id="p_upps" value="2" min="0"></div>
   </div>
 
   <h2>4. Avgift och betalning</h2>
   <div class="grid">
-    <div><label for="a_pris">Avgift per månad (kr)</label><input type="number" id="a_pris"></div>
+    <div><label for="a_pris">Avgift per månad (kr)</label><input autocomplete="off" type="number" id="a_pris"></div>
     <div><label for="a_moms">Moms</label>
-      <select id="a_moms"><option>Inklusive moms</option><option>Exklusive moms</option><option>Momsfri</option></select></div>
-    <div><label for="a_forfall">Betalas senast (dag i månaden)</label><input type="text" id="a_forfall" placeholder="t.ex. den 25:e i månaden innan"></div>
-    <div><label for="a_depo">Deposition / förskott (kr)</label><input type="number" id="a_depo"></div>
-    <div class="full"><label for="a_betal">Betalningssätt (Swish / bankgiro / bankkonto)</label><input type="text" id="a_betal"></div>
+      <select autocomplete="off" id="a_moms"><option>Inklusive moms</option><option>Exklusive moms</option><option>Momsfri</option></select></div>
+    <div><label for="a_forfall">Betalas senast (dag i månaden)</label><input autocomplete="off" type="text" id="a_forfall" placeholder="t.ex. den 25:e i månaden innan"></div>
+    <div><label for="a_depo">Deposition / förskott (kr)</label><input autocomplete="off" type="number" id="a_depo"></div>
+    <div class="full"><label for="a_betal">Betalningssätt (Swish / bankgiro / bankkonto)</label><input autocomplete="off" type="text" id="a_betal"></div>
   </div>
 
   <h2>5. Vad ingår i avgiften</h2>
   <p style="margin-top:0"><strong>Ingår som standard:</strong></p>
   <div class="checks">
-    <label><input type="checkbox" id="i_box" checked> Box / plats</label>
-    <label><input type="checkbox" id="i_grov" checked> Grovfoder (hösilage/ensilage)</label>
-    <label><input type="checkbox" id="i_hage" checked> Rasthagar</label>
-    <label><input type="checkbox" id="i_bana" checked> Ridbana / paddock</label>
-    <label><input type="checkbox" id="i_tvatt" checked> Spolplatta</label>
-    <label><input type="checkbox" id="i_el" checked> El och vatten (kall + varm)</label>
-    <label><input type="checkbox" id="i_sadel" checked> Sadelkammare + hyllor</label>
+    <label><input autocomplete="off" type="checkbox" id="i_box" checked> Box / plats</label>
+    <label><input autocomplete="off" type="checkbox" id="i_grov" checked> Grovfoder (hösilage/ensilage)</label>
+    <label><input autocomplete="off" type="checkbox" id="i_hage" checked> Rasthagar</label>
+    <label><input autocomplete="off" type="checkbox" id="i_bana" checked> Ridbana / paddock</label>
+    <label><input autocomplete="off" type="checkbox" id="i_tvatt" checked> Spolplatta</label>
+    <label><input autocomplete="off" type="checkbox" id="i_el" checked> El och vatten (kall + varm)</label>
+    <label><input autocomplete="off" type="checkbox" id="i_sadel" checked> Sadelkammare + hyllor</label>
   </div>
   <p><strong>Tillval</strong> (tillkommer mot extra avgift – bocka i det som gäller):</p>
   <div class="checks">
-    <label><input type="checkbox" id="t_stro"> Strö</label>
-    <label><input type="checkbox" id="t_slapp"> Utsläpp / insläpp</label>
-    <label><input type="checkbox" id="t_hus"> Ridhus</label>
+    <label><input autocomplete="off" type="checkbox" id="t_stro"> Strö</label>
+    <label><input autocomplete="off" type="checkbox" id="t_slapp"> Utsläpp / insläpp</label>
+    <label><input autocomplete="off" type="checkbox" id="t_hus"> Ridhus</label>
   </div>
   <div class="grid" style="margin-top:12px">
-    <div class="full"><label for="i_ovrigt">Tillval, övrigt och pris</label><textarea id="i_ovrigt" placeholder="Ange vilka tillval som gäller och pris per månad / tillfälle"></textarea></div>
+    <div class="full"><label for="i_ovrigt">Tillval, övrigt och pris</label><textarea autocomplete="off" id="i_ovrigt" placeholder="Ange vilka tillval som gäller och pris per månad / tillfälle"></textarea></div>
   </div>
 
   <h2>6. Villkor</h2>
@@ -153,26 +181,26 @@
   </ol>
 
   <h2>7. Övriga överenskommelser</h2>
-  <textarea id="ovr" placeholder="Eventuella särskilda villkor som parterna kommit överens om"></textarea>
+  <textarea autocomplete="off" id="ovr" placeholder="Eventuella särskilda villkor som parterna kommit överens om"></textarea>
 
   <h2>8. Underskrifter</h2>
   <p>Detta avtal har upprättats i två likalydande exemplar, varav parterna tagit var sitt.</p>
   <div class="grid" style="margin-bottom:12px">
-    <div><label for="ort">Ort</label><input type="text" id="ort"></div>
-    <div><label for="datum">Datum</label><input type="date" id="datum"></div>
+    <div><label for="ort">Ort</label><input autocomplete="off" type="text" id="ort"></div>
+    <div><label for="datum">Datum</label><input autocomplete="off" type="date" id="datum"></div>
   </div>
   <div class="sig">
     <div class="sigbox">
       <label>Stallägare – underskrift</label>
       <canvas id="sig1"></canvas>
       <button type="button" class="clear" data-clear="sig1">Rensa</button>
-      <div style="margin-top:8px"><label for="sig1n">Namnförtydligande</label><input type="text" id="sig1n" value="Susanne Axén"></div>
+      <div style="margin-top:8px"><label for="sig1n">Namnförtydligande</label><input autocomplete="off" type="text" id="sig1n" value="Susanne Axén"></div>
     </div>
     <div class="sigbox">
       <label>Hästägare – underskrift</label>
       <canvas id="sig2"></canvas>
       <button type="button" class="clear" data-clear="sig2">Rensa</button>
-      <div style="margin-top:8px"><label for="sig2n">Namnförtydligande</label><input type="text" id="sig2n"></div>
+      <div style="margin-top:8px"><label for="sig2n">Namnförtydligande</label><input autocomplete="off" type="text" id="sig2n"></div>
     </div>
   </div>
 
@@ -185,6 +213,15 @@
   <button type="button" id="btnPrint">Skriv ut / Spara som PDF</button>
   <button type="button" class="alt" id="btnShare">Dela / Spara i Drive</button>
   <button type="button" class="alt" id="btnDownload">Ladda ner HTML</button>
+  <button type="button" class="alt" id="btnHist">Historik</button>
+</div>
+
+<div id="histModal" class="modal" hidden>
+  <div class="modal-box">
+    <div class="modal-head"><strong>Historik</strong><button type="button" id="histClose">Stäng</button></div>
+    <div id="histList"></div>
+    <div class="modal-foot"><button type="button" id="histNew">Nytt avtal</button></div>
+  </div>
 </div>
 
 <script>
@@ -218,12 +255,37 @@
     });
     ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) { c.addEventListener(ev, function () { drawing = false; }); });
     fit();
-    return { clear: function () { var r = c.getBoundingClientRect(); ctx.clearRect(0, 0, r.width, r.height); delete c.dataset.signed; } };
+    return {
+      clear: function () { var r = c.getBoundingClientRect(); ctx.clearRect(0, 0, r.width, r.height); delete c.dataset.signed; },
+      load: function (url) {
+        var r = c.getBoundingClientRect();
+        ctx.clearRect(0, 0, r.width, r.height); delete c.dataset.signed;
+        if (!url) return;
+        var img = new Image();
+        img.onload = function () { ctx.drawImage(img, 0, 0, r.width, r.height); c.dataset.signed = '1'; };
+        img.src = url;
+      }
+    };
   }
   var sigs = { sig1: setupCanvas('sig1'), sig2: setupCanvas('sig2') };
   document.querySelectorAll('[data-clear]').forEach(function (b) {
     b.addEventListener('click', function () { sigs[b.dataset.clear].clear(); });
   });
+
+  // ---------- Alltid ett nytt, rent avtal när sidan öppnas ----------
+  function resetForm() {
+    document.querySelectorAll('.page input, .page textarea, .page select').forEach(function (el) {
+      if (el.type === 'checkbox') el.checked = el.defaultChecked;
+      else if (el.tagName === 'SELECT') {
+        var idx = 0;
+        Array.prototype.forEach.call(el.options, function (o, i) { if (o.defaultSelected) idx = i; });
+        el.selectedIndex = idx;
+      } else el.value = el.defaultValue;
+    });
+    sigs.sig1.clear(); sigs.sig2.clear();
+  }
+  resetForm();
+  window.addEventListener('pageshow', function (e) { if (e.persisted) location.reload(); });
 
   // ---------- Datum default ----------
   var d = document.getElementById('datum');
@@ -257,25 +319,114 @@
     });
     var tb = clone.querySelector('.toolbar'); if (tb) tb.remove();
     clone.querySelectorAll('script').forEach(function (s) { s.remove(); });
-    clone.querySelectorAll('.clear').forEach(function (s) { s.remove(); });
+    clone.querySelectorAll('.clear, .modal').forEach(function (s) { s.remove(); });
     return '<!DOCTYPE html>\n' + clone.outerHTML;
   }
-  function fileName() {
-    var h = (document.getElementById('hast_namn').value || 'hast').trim().replace(/[^\w\-åäöÅÄÖ]+/g, '_');
-    return 'inackorderingsavtal_' + h + '_' + new Date().toISOString().slice(0, 10) + '.html';
+  function val(id) { var e = document.getElementById(id); return e ? e.value : ''; }
+  function clean(t) { return (t || '').replace(/[\\\/:*?"<>|]+/g, '').replace(/\s+/g, ' ').trim(); }
+  function agreementTitle() {
+    return (clean(val('h_namn')) || 'Hästägare') + ' - ' + (clean(val('hast_namn')) || 'Häst');
+  }
+  function fileName() { return agreementTitle() + '.html'; }
+
+  // ---------- Historik (sparas i webbläsaren på den här enheten) ----------
+  var HKEY = 'inackorderingsavtal_historik_v1';
+  function histLoad() { try { return JSON.parse(localStorage.getItem(HKEY) || '[]'); } catch (e) { return []; } }
+  function histStore(list) {
+    for (var i = 0; i < 20; i++) {
+      try { localStorage.setItem(HKEY, JSON.stringify(list)); return true; }
+      catch (e) { if (list.length <= 1) return false; list.pop(); }
+    }
+    return false;
+  }
+  function collect() {
+    var data = {};
+    document.querySelectorAll('.page input, .page textarea, .page select').forEach(function (el) {
+      data[el.id] = el.type === 'checkbox' ? el.checked : el.value;
+    });
+    ['sig1', 'sig2'].forEach(function (id) {
+      var c = document.getElementById(id);
+      data['_' + id] = c.dataset.signed ? c.toDataURL('image/png') : '';
+    });
+    return data;
+  }
+  function applyData(data) {
+    Object.keys(data).forEach(function (k) {
+      if (k.charAt(0) === '_') { sigs[k.slice(1)].load(data[k]); return; }
+      var el = document.getElementById(k);
+      if (!el) return;
+      if (el.type === 'checkbox') el.checked = !!data[k]; else el.value = data[k];
+    });
+  }
+  function recordHistory() {
+    if (!clean(val('h_namn')) && !clean(val('hast_namn'))) return;
+    var data = collect(), json = JSON.stringify(data), list = histLoad();
+    if (list.length && JSON.stringify(list[0].data) === json) return;
+    list.unshift({ id: Date.now(), title: agreementTitle(), saved: new Date().toISOString(), data: data });
+    histStore(list.slice(0, 100));
+  }
+  function fmtDate(iso) {
+    try { return new Date(iso).toLocaleString('sv-SE', { dateStyle: 'short', timeStyle: 'short' }); } catch (e) { return iso; }
+  }
+  function renderHist() {
+    var box = document.getElementById('histList'), list = histLoad();
+    box.innerHTML = '';
+    if (!list.length) {
+      var p = document.createElement('p'); p.className = 'hempty';
+      p.textContent = 'Ingen historik ännu. Avtal sparas här när du skriver ut, delar eller laddar ner.';
+      box.appendChild(p); return;
+    }
+    list.forEach(function (e) {
+      var row = document.createElement('div'); row.className = 'hrow';
+      var left = document.createElement('div');
+      var t = document.createElement('div'); t.className = 'htitle'; t.textContent = e.title;
+      var d = document.createElement('div'); d.className = 'hdate'; d.textContent = fmtDate(e.saved);
+      left.appendChild(t); left.appendChild(d);
+      var btns = document.createElement('div'); btns.className = 'hbtns';
+      var open = document.createElement('button'); open.type = 'button'; open.textContent = 'Öppna';
+      open.addEventListener('click', function () {
+        if (!confirm('Öppna "' + e.title + '"? Det du har fyllt i just nu ersätts.')) return;
+        applyData(e.data);
+        document.getElementById('histModal').hidden = true;
+        window.scrollTo(0, 0);
+      });
+      var del = document.createElement('button'); del.type = 'button'; del.className = 'danger'; del.textContent = 'Radera';
+      del.addEventListener('click', function () {
+        if (!confirm('Radera "' + e.title + '" från historiken?')) return;
+        histStore(histLoad().filter(function (x) { return x.id !== e.id; }));
+        renderHist();
+      });
+      btns.appendChild(open); btns.appendChild(del);
+      row.appendChild(left); row.appendChild(btns);
+      box.appendChild(row);
+    });
   }
   function makeFile() { return new File([buildFilled()], fileName(), { type: 'text/html' }); }
 
   // ---------- Knappar ----------
-  document.getElementById('btnPrint').addEventListener('click', function () { window.print(); });
+  var origTitle = document.title;
+  window.addEventListener('beforeprint', function () { recordHistory(); document.title = agreementTitle(); });
+  window.addEventListener('afterprint', function () { document.title = origTitle; });
+  document.getElementById('btnPrint').addEventListener('click', function () {
+    recordHistory(); document.title = agreementTitle(); window.print();
+  });
+  document.getElementById('btnHist').addEventListener('click', function () {
+    renderHist(); document.getElementById('histModal').hidden = false;
+  });
+  document.getElementById('histClose').addEventListener('click', function () { document.getElementById('histModal').hidden = true; });
+  document.getElementById('histNew').addEventListener('click', function () {
+    if (confirm('Börja på ett nytt tomt avtal? Det du har fyllt i just nu försvinner (sparade avtal finns kvar i historiken).')) location.reload();
+  });
 
   document.getElementById('btnDownload').addEventListener('click', function () {
+    recordHistory();
     var f = makeFile(), url = URL.createObjectURL(f), a = document.createElement('a');
     a.href = url; a.download = f.name; document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
   });
 
   document.getElementById('btnShare').addEventListener('click', async function () {
+    recordHistory();
     var f = makeFile();
     try {
       if (navigator.canShare && navigator.canShare({ files: [f] })) {
