@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inackorderingsavtal – häst</title>
+<style>
+  :root { --ink:#222; --muted:#666; --line:#d9d4c7; --accent:#5b3a1e; --bg:#faf8f3; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 Georgia, "Times New Roman", serif; }
+  .page { max-width:820px; margin:0 auto; padding:20px 16px 120px; }
+  h1 { font-size:1.7rem; color:var(--accent); margin:.2em 0 .1em; text-align:center; }
+  .logo { text-align:center; margin:.6em 0 .8em; }
+  .logo img { width:110px; height:110px; border-radius:50%; display:inline-block; }
+  .sub { text-align:center; color:var(--muted); margin-bottom:1.5em; font-size:.95rem; }
+  h2 { font-size:1.1rem; color:var(--accent); border-bottom:2px solid var(--line); padding-bottom:4px; margin:1.8em 0 .8em; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px 14px; }
+  .grid .full { grid-column:1 / -1; }
+  label { display:block; font:600 .8rem system-ui, sans-serif; color:var(--muted); margin-bottom:2px; text-transform:uppercase; letter-spacing:.03em; }
+  input[type=text], input[type=tel], input[type=email], input[type=date], input[type=number], select, textarea {
+    width:100%; padding:9px 10px; font:1rem system-ui, sans-serif; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink);
+  }
+  textarea { min-height:80px; resize:vertical; }
+  .party { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px; margin-bottom:12px; }
+  .party h3 { margin:0 0 10px; font-size:1rem; }
+  .checks { display:grid; grid-template-columns:1fr 1fr; gap:6px 14px; }
+  .checks label { text-transform:none; letter-spacing:0; font:1rem system-ui, sans-serif; color:var(--ink); display:flex; gap:8px; align-items:center; }
+  .checks input { width:20px; height:20px; }
+  ol.terms { padding-left:1.2em; }
+  ol.terms li { margin-bottom:.7em; }
+  .sig { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:10px; }
+  .sigbox { background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px; }
+  canvas { width:100%; height:130px; border:1px dashed #aaa; border-radius:6px; background:#fff; touch-action:none; display:block; }
+  .clear { margin-top:6px; background:none; border:none; color:var(--accent); font:.85rem system-ui, sans-serif; text-decoration:underline; padding:0; }
+  .toolbar { position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--line); padding:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap; z-index:10; }
+  .toolbar button { flex:1 1 140px; max-width:230px; padding:12px; font:600 .95rem system-ui, sans-serif; border-radius:8px; border:1px solid var(--accent); background:var(--accent); color:#fff; }
+  .toolbar button.alt { background:#fff; color:var(--accent); }
+  .note { font:.85rem system-ui, sans-serif; color:var(--muted); background:#fff7e0; border:1px solid #ecd9a0; border-radius:8px; padding:10px 12px; margin-top:24px; }
+  @media (max-width:600px) { .grid, .sig, .checks { grid-template-columns:1fr; } }
+  @media print {
+    body { background:#fff; font-size:11pt; }
+    .toolbar, .clear, .note { display:none !important; }
+    .page { padding:0; max-width:none; }
+    .party, .sigbox { border-color:#999; break-inside:avoid; }
+    input, select, textarea { border:none; border-bottom:1px solid #999; border-radius:0; padding:2px 0; background:transparent; }
+    h2 { break-after:avoid; }
+    canvas { border:none; border-bottom:1px solid #000; }
+  }
+</style>
+</head>
+<body>
+<div class="page" id="doc">
+
+  <h1>Inackorderingsavtal – häst</h1>
+  <div class="logo"><img src="data:image/jpeg;base64,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" alt="Ringstad Stallarna"></div>
+  <div class="sub">Avtal om stallplats och skötsel av häst</div>
+
+  <h2>1. Parter</h2>
+  <div class="party">
+    <h3>Stallägare / Uthyrare</h3>
+    <div class="grid">
+      <div class="full"><label for="s_namn">Namn / Företag</label><input type="text" id="s_namn" value="Axén Häst AB"></div>
+      <div><label for="s_id">Personnr / Orgnr</label><input type="text" id="s_id" value="559303-8077"></div>
+      <div><label for="s_tel">Telefon</label><input type="tel" id="s_tel" value="0707208429"></div>
+      <div class="full"><label for="s_adr">Adress</label><input type="text" id="s_adr" value="Ringstad Gård 2, 60599 Norrköping"></div>
+      <div class="full"><label for="s_mail">E-post</label><input type="email" id="s_mail" value="Susanne.axen20@gmail.com"></div>
+    </div>
+  </div>
+  <div class="party">
+    <h3>Hästägare / Inackordering</h3>
+    <div class="grid">
+      <div class="full"><label for="h_namn">Namn</label><input type="text" id="h_namn"></div>
+      <div><label for="h_id">Personnummer</label><input type="text" id="h_id"></div>
+      <div><label for="h_tel">Telefon</label><input type="tel" id="h_tel"></div>
+      <div class="full"><label for="h_adr">Adress</label><input type="text" id="h_adr"></div>
+      <div class="full"><label for="h_mail">E-post</label><input type="email" id="h_mail"></div>
+      <div class="full"><label for="h_ice">Närmast anhörig (nödkontakt)</label><input type="text" id="h_ice"></div>
+    </div>
+  </div>
+
+  <h2>2. Hästen</h2>
+  <div class="grid">
+    <div><label for="hast_namn">Hästens namn</label><input type="text" id="hast_namn"></div>
+    <div><label for="hast_kon">Kön</label>
+      <select id="hast_kon"><option value="">Välj…</option><option>Sto</option><option>Valack</option><option>Hingst</option></select></div>
+    <div><label for="hast_ar">Födelseår</label><input type="text" id="hast_ar"></div>
+    <div><label for="hast_farg">Färg / tecken</label><input type="text" id="hast_farg"></div>
+    <div><label for="hast_pass">UELN / passnummer / chipnr</label><input type="text" id="hast_pass"></div>
+    <div><label for="hast_fors">Försäkringsbolag och försäkringsnr</label><input type="text" id="hast_fors"></div>
+  </div>
+
+  <h2>3. Plats och avtalstid</h2>
+  <div class="grid">
+    <div><label for="p_typ">Typ av plats</label>
+      <select id="p_typ"><option value="">Välj…</option><option>Storbox</option><option>Ponnybox</option><option>Lösdrift</option></select></div>
+    <div><label for="p_stall">Stall / adress där hästen står</label><input type="text" id="p_stall" value="Ringstad Gård, 60599 Norrköping"></div>
+    <div><label for="p_start">Startdatum</label><input type="date" id="p_start"></div>
+    <div><label for="p_tid">Avtalstid</label>
+      <select id="p_tid"><option>Tillsvidare</option><option>Bestämd tid</option></select></div>
+    <div><label for="p_slut">Slutdatum (om bestämd tid)</label><input type="date" id="p_slut"></div>
+    <div><label for="p_upps">Uppsägningstid (månader)</label><input type="number" id="p_upps" value="2" min="0"></div>
+  </div>
+
+  <h2>4. Avgift och betalning</h2>
+  <div class="grid">
+    <div><label for="a_pris">Avgift per månad (kr)</label><input type="number" id="a_pris"></div>
+    <div><label for="a_moms">Moms</label>
+      <select id="a_moms"><option>Inklusive moms</option><option>Exklusive moms</option><option>Momsfri</option></select></div>
+    <div><label for="a_forfall">Betalas senast (dag i månaden)</label><input type="text" id="a_forfall" placeholder="t.ex. den 25:e i månaden innan"></div>
+    <div><label for="a_depo">Deposition / förskott (kr)</label><input type="number" id="a_depo"></div>
+    <div class="full"><label for="a_betal">Betalningssätt (Swish / bankgiro / bankkonto)</label><input type="text" id="a_betal"></div>
+  </div>
+
+  <h2>5. Vad ingår i avgiften</h2>
+  <p style="margin-top:0"><strong>Ingår som standard:</strong></p>
+  <div class="checks">
+    <label><input type="checkbox" id="i_box" checked> Box / plats</label>
+    <label><input type="checkbox" id="i_grov" checked> Grovfoder (hösilage/ensilage)</label>
+    <label><input type="checkbox" id="i_hage" checked> Rasthagar</label>
+    <label><input type="checkbox" id="i_bana" checked> Ridbana / paddock</label>
+    <label><input type="checkbox" id="i_tvatt" checked> Spolplatta</label>
+    <label><input type="checkbox" id="i_el" checked> El och vatten (kall + varm)</label>
+    <label><input type="checkbox" id="i_sadel" checked> Sadelkammare + hyllor</label>
+  </div>
+  <p><strong>Tillval</strong> (tillkommer mot extra avgift – bocka i det som gäller):</p>
+  <div class="checks">
+    <label><input type="checkbox" id="t_stro"> Strö</label>
+    <label><input type="checkbox" id="t_slapp"> Utsläpp / insläpp</label>
+    <label><input type="checkbox" id="t_hus"> Ridhus</label>
+  </div>
+  <div class="grid" style="margin-top:12px">
+    <div class="full"><label for="i_ovrigt">Tillval, övrigt och pris</label><textarea id="i_ovrigt" placeholder="Ange vilka tillval som gäller och pris per månad / tillfälle"></textarea></div>
+  </div>
+
+  <h2>6. Villkor</h2>
+  <ol class="terms">
+    <li><strong>Skötsel.</strong> Stallägaren tillhandahåller det som anges i punkt 5 (standard samt eventuella tillval). Hästägaren ansvarar för sådant som inte uttryckligen ingår, såsom hovvård, veterinär, vaccinationer, avmaskning och tandvård.</li>
+    <li><strong>Hälsa och vaccination.</strong> Hästen ska vara frisk, avmaskad efter behov och vaccinerad enligt gällande regler och stallets rutiner (t.ex. influensa). Giltigt vaccinationsintyg ska uppvisas vid inflyttning. Hästägaren informerar omgående stallägaren vid misstänkt smitta.</li>
+    <li><strong>Veterinär och akutvård.</strong> Vid sjukdom eller olycka kontaktar stallägaren hästägaren. Går hästägaren inte att nå, och hästens tillstånd kräver omedelbar åtgärd, får stallägaren kontakta veterinär. Hästägaren står för alla veterinär- och transportkostnader.</li>
+    <li><strong>Registrering och ID.</strong> Hästen ska vara ID-märkt och registrerad enligt Jordbruksverkets regler. Hästägaren ansvarar för att hästpasset finns tillgängligt och är uppdaterat.</li>
+    <li><strong>Försäkring.</strong> Hästägaren ska under hela avtalstiden ha giltig hästförsäkring (minst veterinärvård och ansvar) samt ansvarsförsäkring som täcker skada som hästen eller hästägaren orsakar. Stallägaren bör ha ansvars- och stallförsäkring.</li>
+    <li><strong>Ansvar.</strong> Stallägaren ansvarar för skador på hästen endast om de orsakats av stallägarens grova vårdslöshet eller uppsåt. Hästägaren ansvarar för skador som hästen eller hästägaren orsakar på person, andra hästar, byggnader eller utrustning. Ridning, hantering och vistelse i stallet sker på egen risk.</li>
+    <li><strong>Egen utrustning.</strong> Hästägaren ansvarar för sin utrustning (sadlar, täcken, grimmor m.m.). Stallägaren ansvarar inte för stöld, skada eller förlust av egendom.</li>
+    <li><strong>Ordningsregler.</strong> Hästägaren följer stallets ordningsregler, inklusive regler om rökförbud, hundar, barn, städning, ridtider samt användning av bana, ridhus och hagar. Brott mot ordningsregler kan leda till uppsägning.</li>
+    <li><strong>Prisjustering.</strong> Avgiften kan justeras vid ändrade kostnader för foder, strö, el eller liknande. Ändring ska meddelas skriftligen minst två (2) månader i förväg.</li>
+    <li><strong>Betalning.</strong> Vid försenad betalning har stallägaren rätt till dröjsmålsränta enligt räntelagen samt skälig ersättning för påminnelse- och inkassokostnader. Vid betalningsdröjsmål över 30 dagar har stallägaren rätt att säga upp avtalet.</li>
+    <li><strong>Uppsägning.</strong> Avtalet kan sägas upp skriftligen av båda parter med den uppsägningstid som anges i punkt 3, räknat från den sista dagen i den månad uppsägningen görs. Full avgift enligt punkt 4 ska betalas under hela uppsägningstiden, även om hästen flyttas tidigare. Vid avtal på bestämd tid gäller avtalet till slutdatum om inte annat överenskommits.</li>
+    <li><strong>Avflyttning.</strong> Vid avflyttning ska hästen och all utrustning hämtas senast sista avtalsdagen. Kvarlämnad häst eller utrustning efter avtalstidens slut kan debiteras med dagsavgift, och stallägaren har rätt att vidta skäliga åtgärder för hästens välfärd på hästägarens bekostnad.</li>
+    <li><strong>Tillträde och användning.</strong> Hästägaren och av denne godkända personer har tillgång till stallet under de tider som överenskommits. Hästen får inte utan stallägarens samtycke hyras ut, lånas ut eller användas av andra.</li>
+    <li><strong>Djurskydd.</strong> Båda parter ska följa djurskyddslagen och gällande föreskrifter. Om stallägaren bedömer att hästen far illa och hästägaren inte åtgärdar bristen, har stallägaren rätt att kontakta veterinär och/eller myndighet.</li>
+    <li><strong>Personuppgifter.</strong> Uppgifterna i detta avtal behandlas enbart för att genomföra avtalet och lagras så länge det behövs för det ändamålet.</li>
+    <li><strong>Ändringar och tvist.</strong> Ändringar och tillägg ska vara skriftliga och undertecknade av båda parter. Tvist ska i första hand lösas genom samtal, i andra hand av allmän domstol med svensk lag tillämplig.</li>
+  </ol>
+
+  <h2>7. Övriga överenskommelser</h2>
+  <textarea id="ovr" placeholder="Eventuella särskilda villkor som parterna kommit överens om"></textarea>
+
+  <h2>8. Underskrifter</h2>
+  <p>Detta avtal har upprättats i två likalydande exemplar, varav parterna tagit var sitt.</p>
+  <div class="grid" style="margin-bottom:12px">
+    <div><label for="ort">Ort</label><input type="text" id="ort"></div>
+    <div><label for="datum">Datum</label><input type="date" id="datum"></div>
+  </div>
+  <div class="sig">
+    <div class="sigbox">
+      <label>Stallägare – underskrift</label>
+      <canvas id="sig1"></canvas>
+      <button type="button" class="clear" data-clear="sig1">Rensa</button>
+      <div style="margin-top:8px"><label for="sig1n">Namnförtydligande</label><input type="text" id="sig1n" value="Susanne Axén"></div>
+    </div>
+    <div class="sigbox">
+      <label>Hästägare – underskrift</label>
+      <canvas id="sig2"></canvas>
+      <button type="button" class="clear" data-clear="sig2">Rensa</button>
+      <div style="margin-top:8px"><label for="sig2n">Namnförtydligande</label><input type="text" id="sig2n"></div>
+    </div>
+  </div>
+
+  <div class="note">
+    Mallen är ett allmänt underlag och ersätter inte juridisk rådgivning. Anpassa gärna villkoren efter ert stall och er situation.
+  </div>
+</div>
+
+<div class="toolbar">
+  <button type="button" id="btnPrint">Skriv ut / Spara som PDF</button>
+  <button type="button" class="alt" id="btnShare">Dela / Spara i Drive</button>
+  <button type="button" class="alt" id="btnDownload">Ladda ner HTML</button>
+</div>
+
+<script>
+(function () {
+  // ---------- Signaturer ----------
+  function setupCanvas(id) {
+    var c = document.getElementById(id);
+    var ctx, drawing = false, last = null;
+    function fit() {
+      var data = c.toDataURL();
+      var r = c.getBoundingClientRect();
+      var ratio = window.devicePixelRatio || 1;
+      c.width = Math.max(1, r.width * ratio);
+      c.height = Math.max(1, r.height * ratio);
+      ctx = c.getContext('2d');
+      ctx.scale(ratio, ratio);
+      ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.strokeStyle = '#111';
+      if (c.dataset.signed) {
+        var img = new Image();
+        img.onload = function () { ctx.drawImage(img, 0, 0, r.width, r.height); };
+        img.src = data;
+      }
+    }
+    function pos(e) { var r = c.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+    c.addEventListener('pointerdown', function (e) { drawing = true; last = pos(e); c.setPointerCapture(e.pointerId); c.dataset.signed = '1'; });
+    c.addEventListener('pointermove', function (e) {
+      if (!drawing) return;
+      var p = pos(e);
+      ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+      last = p;
+    });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) { c.addEventListener(ev, function () { drawing = false; }); });
+    fit();
+    return { clear: function () { var r = c.getBoundingClientRect(); ctx.clearRect(0, 0, r.width, r.height); delete c.dataset.signed; } };
+  }
+  var sigs = { sig1: setupCanvas('sig1'), sig2: setupCanvas('sig2') };
+  document.querySelectorAll('[data-clear]').forEach(function (b) {
+    b.addEventListener('click', function () { sigs[b.dataset.clear].clear(); });
+  });
+
+  // ---------- Datum default ----------
+  var d = document.getElementById('datum');
+  if (d && !d.value) d.value = new Date().toISOString().slice(0, 10);
+
+  // ---------- Bygg ifylld kopia ----------
+  function buildFilled() {
+    var clone = document.documentElement.cloneNode(true);
+    var orig = document.querySelectorAll('input, textarea, select');
+    var copy = clone.querySelectorAll('input, textarea, select');
+    orig.forEach(function (el, i) {
+      var cp = copy[i];
+      if (el.tagName === 'TEXTAREA') { cp.textContent = el.value; }
+      else if (el.tagName === 'SELECT') {
+        Array.prototype.forEach.call(cp.options, function (o, j) {
+          if (j === el.selectedIndex) o.setAttribute('selected', 'selected'); else o.removeAttribute('selected');
+        });
+      } else if (el.type === 'checkbox') {
+        if (el.checked) cp.setAttribute('checked', 'checked'); else cp.removeAttribute('checked');
+      } else { cp.setAttribute('value', el.value); }
+    });
+    ['sig1', 'sig2'].forEach(function (id) {
+      var c = document.getElementById(id);
+      var target = clone.querySelector('#' + id);
+      if (c.dataset.signed) {
+        var img = document.createElement('img');
+        img.src = c.toDataURL('image/png');
+        img.style.cssText = 'width:100%;height:130px;object-fit:contain;border:1px dashed #aaa;border-radius:6px;background:#fff';
+        target.parentNode.replaceChild(img, target);
+      }
+    });
+    var tb = clone.querySelector('.toolbar'); if (tb) tb.remove();
+    clone.querySelectorAll('script').forEach(function (s) { s.remove(); });
+    clone.querySelectorAll('.clear').forEach(function (s) { s.remove(); });
+    return '<!DOCTYPE html>\n' + clone.outerHTML;
+  }
+  function fileName() {
+    var h = (document.getElementById('hast_namn').value || 'hast').trim().replace(/[^\w\-åäöÅÄÖ]+/g, '_');
+    return 'inackorderingsavtal_' + h + '_' + new Date().toISOString().slice(0, 10) + '.html';
+  }
+  function makeFile() { return new File([buildFilled()], fileName(), { type: 'text/html' }); }
+
+  // ---------- Knappar ----------
+  document.getElementById('btnPrint').addEventListener('click', function () { window.print(); });
+
+  document.getElementById('btnDownload').addEventListener('click', function () {
+    var f = makeFile(), url = URL.createObjectURL(f), a = document.createElement('a');
+    a.href = url; a.download = f.name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+  });
+
+  document.getElementById('btnShare').addEventListener('click', async function () {
+    var f = makeFile();
+    try {
+      if (navigator.canShare && navigator.canShare({ files: [f] })) {
+        await navigator.share({ files: [f], title: 'Inackorderingsavtal', text: 'Inackorderingsavtal häst' });
+        return;
+      }
+    } catch (e) { if (e && e.name === 'AbortError') return; }
+    // Fallback: ladda ner
+    document.getElementById('btnDownload').click();
+    alert('Din webbläsare kan inte dela direkt. Filen laddades ner – öppna den och välj "Spara i Drive" från delningsmenyn.');
+  });
+
+  window.addEventListener('resize', function () { /* behåll signatur vid rotation */ });
+})();
+</script>
+</body>
+</html>
